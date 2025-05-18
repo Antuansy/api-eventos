@@ -139,9 +139,9 @@ api-eventos/
 
 ---
 
-## 🚀 Instalación y uso
+## 🚀 Instalación
 
-1. Clona el repositorio:
+ Clona el repositorio:
 ```bash
 git clone https://github.com/Antuansy/api-eventos.git
 cd api-eventos
