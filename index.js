@@ -17,11 +17,11 @@ import ReservacionesRouter from './routes/reservacionesRoute.js';
 import UsuariosRouter from './routes/usuariosRoute.js'; 
 
 // Usa solo las rutas necesarias para tu proyecto
-app.use('/api/actividades', ActividadesRouter);
-app.use('/api/espacios', EspaciosRouter);
-app.use('/api/eventos', EventosRouter);
-app.use('/api/reservaciones', ReservacionesRouter);
-app.use('/api/usuarios', UsuariosRouter)
+app.use('/actividades', ActividadesRouter);
+app.use('/espacios', EspaciosRouter);
+app.use('/eventos', EventosRouter);
+app.use('/reservaciones', ReservacionesRouter);
+app.use('/usuarios', UsuariosRouter)
 
 // Ruta base
 app.get('/', (req, res) => {
