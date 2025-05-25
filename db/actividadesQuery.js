@@ -33,9 +33,9 @@ const eliminarActividadQuery = async (id) => {
 };
 
 export {
-    listarActividades,
-    obtenerActividadPorId,
-    crearActividad,
-    actualizarActividad,
-    eliminarActividad
+    listarActividadesQuery,
+    obtenerActividadPorIdQuery,
+    crearActividadQuery,
+    actualizarActividadQuery,
+    eliminarActividadQuery
 };
