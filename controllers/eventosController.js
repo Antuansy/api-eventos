@@ -1,96 +1,89 @@
+// controllers/eventosController.js
 import {
-    listarTodosEventosQuery,
-    listarEventoPorIdQuery,
-    crearEventoQuery,
-    actualizarEventoQuery,
-    eliminarEventoQuery
-  } from "../db/eventosQuery.js";
-  
-  /**
-   * Obtener todos los eventos de la base de datos
-   */
-  const listarTodosEventos = async (req, res) => {
-    // Un bloque try-catch  sirve para validar si la peticion se obtiene o se devuelve un error
-    // Try -> intentar
-    // Catch -> capturar el error
-    try {
-      //  Ejecutar la consulta en la base de datos
-      const eventos = await listarTodosEventosQuery();
-      res.json(eventos);
-    } catch (error) {
-      res.status(500).send(error);
+  listarEventos,
+  obtenerEventoPorId,
+  crearEvento,
+  actualizarEvento,
+  eliminarEvento
+} from "../db/eventosQuery.js";
+
+/**
+ * Obtener todos los eventos de la base de datos
+ */
+const listarEventosQuery = async (req, res) => {
+  try {
+    const eventos = await listarEventosQuery();
+    res.json(eventos);
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error al obtener los eventos', error: error.message });
+  }
+};
+
+/**
+ * Obtener un evento por ID
+ */
+const obtenerEventoPorIdQuery = async (req, res) => {
+  try {
+    const evento = await obtenerEventoPorIdQuery(req.params.id);
+    if (evento.length === 0) {
+      return res.status(404).json({ mensaje: 'Evento no encontrado' });
     }
-  };
-  
-  /**
-   * Obtener el evento con el ID especificado en la query / url
-   * @param {*} req 
-   * @param {*} res 
-   */
-  
-  const listarEventoPorId = async (req, res) => { 
-    try {
-      //  Ejecutar la consulta en la base de datos
-      const evento = await listarEventoPorIdQuery(req.params.id);
-      res.json(evento);
-    } catch (error) {
-      res.status(500).send(error);
+    res.json(evento[0]);
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error al obtener el evento', error: error.message });
+  }
+};
+
+/**
+ * Crear un nuevo evento
+ */
+const crearEventoQuery = async (req, res) => {
+  try {
+    const datosEvento = req.body;
+    const resultado = await crearEventoQuery(datosEvento);
+    res.status(201).json({ mensaje: 'Evento creado con éxito', evento: resultado });
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error al crear el evento', error: error.message });
+  }
+};
+
+/**
+ * Actualizar un evento} existente
+ */
+const actualizarEventoQuery = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const datosEvento = req.body;
+    const resultado = await actualizarEventoQuery(id, datosEvento);
+    if (!resultado) {
+      return res.status(404).json({ mensaje: 'Evento no encontrado' });
     }
-  };
-  
-  /**
-   * Crear un evento}
-   */
-  const crearEvento = async (req, res) => {
-    console.log(req.body)
-    try {
-        const datosEvento = req.body;
-        const resultado = await crearEventoQuery(datosEvento);
-        res.json({ mensaje: 'Evento creado con éxito', id: resultado.rows[0].id });
-    } catch (error) {
-        res.status(500).send(error);
+    res.json({ mensaje: 'Evento actualizado con éxito', evento: resultado });
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error al actualizar el evento', error: error.message });
+  }
+};
+
+/**
+ * Eliminar un evento
+ */
+const eliminarEventoQuery = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const resultado = await eliminarEventoQuery(id);
+    if (!resultado) {
+      return res.status(404).json({ mensaje: 'Evento no encontrado' });
     }
-  };
-  
-  /**
-   * Actualizar los datos de un evento}
-   */
-  const actualizarEvento = async (req, res) => {
-    try {
-        const id = req.params.id;
-        const datosEvento = req.body;
-        const resultado = await actualizarEventoQuery(id, datosEvento);
-        if (resultado.rowCount > 0) {
-            res.json({ mensaje: 'Evento actualizado con éxito', id: id });
-        } else {
-            res.status(404).json({ mensaje: 'Evento no encontrado' });
-        }
-    } catch (error) {
-        res.status(500).send(error);
-    }
-  };
-  
-  /**
-   * Eliminar un evento}
-   */
-  const eliminarEvento = async (req, res) => {
-    try {
-        const id = req.params.id;
-        const resultado = await eliminarEventoQuery(id);
-        if (resultado.rowCount > 0) {
-            res.json({ mensaje: 'Evento eliminado con éxito' });
-        } else {
-            res.status(404).json({ mensaje: 'Evento no encontrado' });
-        }
-    } catch (error) {
-        res.status(500).json({ mensaje: 'Error al eliminar el evento', error: error.message });
-    }
-  };
-  
-  export {
-    listarTodosEventos,
-    listarEventoPorId,
-    crearEvento,
-    actualizarEvento,
-    eliminarEvento,
-  };
+    res.json({ mensaje: 'Evento eliminado con éxito' });
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error al eliminar el evento', error: error.message });
+  }
+};
+
+export {
+  listarEventos,
+  obtenerEventoPorId,
+  crearEvento,
+  actualizarEvento,
+  eliminarEvento,
+};

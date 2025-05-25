@@ -1,86 +1,42 @@
-import { pool } from '../config.js';
+// db/eventosQuery.js
+import pool from './db.js';
 
-/**
- * Carga la lista de eventos
- */
-const listarTodosEventosQuery = async () => {
-    try {
-        const result = await pool.query('SELECT * FROM eventos');
-        return result.rows;
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
+const listarEventos = async () => {
+    const result = await pool.query('SELECT * FROM eventos');
+    return result.rows;
 };
 
-/**
- * Buscar un evento por su ID (llave primaria)
- */
-const listarEventoPorIdQuery = async (id) => {
-    try {
-        const result = await pool.query('SELECT * FROM eventos WHERE id = $1 LIMIT 1', [id]);
-        return result.rows;
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
+const obtenerEventoPorId = async (id) => {
+    const result = await pool.query('SELECT * FROM eventos WHERE id_evento = $1', [id]);
+    return result.rows[0];
 };
 
-/**
- * Guardar un nuevo evento
- */
-const crearEventoQuery = async (evento) => {
-    const { nombres } = evento;
-    try {
-        const result = await pool.query(
-            'INSERT INTO eventos (nombres) VALUES ($1) RETURNING *',
-            [nombres]
-        );
-        return result;
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
+const crearEvento = async ({ nombre, descripcion, fecha, hora, id_espacio, id_organizador }) => {
+    const result = await pool.query(
+        'INSERT INTO eventos (nombre, descripcion, fecha, hora, id_espacio, id_organizador) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+        [nombre, descripcion, fecha, hora, id_espacio, id_organizador]
+    );
+    return result.rows[0];
 };
 
-/**
- * Actualizar un evento por su ID
- */
-const actualizarEventoQuery = async (id, evento) => {
-    const { nombres } = evento;
-    try {
-        const result = await pool.query(
-            'UPDATE eventos SET nombres = $1 WHERE id = $2 RETURNING *',
-            [nombres, id]
-        );
-        return result;
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
+const actualizarEvento = async (id, { nombre, descripcion, fecha, hora, id_espacio, id_organizador }) => {
+    const result = await pool.query(
+        'UPDATE eventos SET nombre = $1, descripcion = $2, fecha = $3, hora = $4, id_espacio = $5, id_organizador = $6 WHERE id_evento = $7 RETURNING *',
+        [nombre, descripcion, fecha, hora, id_espacio, id_organizador, id]
+    );
+    return result.rows[0];
 };
 
-/**
- * Eliminar un evento por su ID
- */
-const eliminarEventoQuery = async (id) => {
-    try {
-        const result = await pool.query(
-            'DELETE FROM eventos WHERE id = $1 RETURNING *',
-            [id]
-        );
-        return result;
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
+const eliminarEvento = async (id) => {
+    const result = await pool.query('DELETE FROM eventos WHERE id_evento = $1 RETURNING *', [id]);
+    return result.rows[0];
 };
 
-// Exportar todas las funciones definidas en este archivo
 export {
-    listarTodosEventosQuery,
-    listarEventoPorIdQuery,
-    crearEventoQuery,
-    actualizarEventoQuery,
-    eliminarEventoQuery
-}
+    listarEventos,
+    obtenerEventoPorId,
+    crearEvento,
+    actualizarEvento,
+    eliminarEvento
+};
+

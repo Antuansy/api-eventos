@@ -1,86 +1,41 @@
-import { pool } from '../config.js';
+// db/espaciosQuery.js
+import pool from './db.js';
 
-/**
- * Carga la lista de espacios
- */
-const listarTodosEspaciosQuery = async () => {
-    try {
-        const result = await pool.query('SELECT * FROM espacios');
-        return result.rows;
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
+const listarEspacios = async () => {
+    const result = await pool.query('SELECT * FROM espacios');
+    return result.rows;
 };
 
-/**
- * Buscar un espacio por su ID (llave primaria)
- */
-const listarEspacioPorIdQuery = async (id) => {
-    try {
-        const result = await pool.query('SELECT * FROM espacios WHERE id = $1 LIMIT 1', [id]);
-        return result.rows;
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
+const obtenerEspacioPorId = async (id) => {
+    const result = await pool.query('SELECT * FROM espacios WHERE id_espacio = $1', [id]);
+    return result.rows[0];
 };
 
-/**
- * Guardar un nuevo espacio
- */
-const crearEspacioQuery = async (espacio) => {
-    const { nombres } = espacio;
-    try {
-        const result = await pool.query(
-            'INSERT INTO espacios (nombres) VALUES ($1) RETURNING *',
-            [nombres]
-        );
-        return result;
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
+const crearEspacio = async ({ nombre, ubicacion, capacidad }) => {
+    const result = await pool.query(
+        'INSERT INTO espacios (nombre, ubicacion, capacidad) VALUES ($1, $2, $3) RETURNING *',
+        [nombre, ubicacion, capacidad]
+    );
+    return result.rows[0];
 };
 
-/**
- * Actualizar un espacio por su ID
- */
-const actualizarEspacioQuery = async (id, espacio) => {
-    const { nombres } = espacio;
-    try {
-        const result = await pool.query(
-            'UPDATE espacios SET nombres = $1 WHERE id = $2 RETURNING *',
-            [nombres, id]
-        );
-        return result;
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
+const actualizarEspacio = async (id, { nombre, ubicacion, capacidad }) => {
+    const result = await pool.query(
+        'UPDATE espacios SET nombre = $1, ubicacion = $2, capacidad = $3 WHERE id_espacio = $4 RETURNING *',
+        [nombre, ubicacion, capacidad, id]
+    );
+    return result.rows[0];
 };
 
-/**
- * Eliminar un espacio por su ID
- */
-const eliminarEspacioQuery = async (id) => {
-    try {
-        const result = await pool.query(
-            'DELETE FROM espacios WHERE id = $1 RETURNING *',
-            [id]
-        );
-        return result;
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
+const eliminarEspacio = async (id) => {
+    const result = await pool.query('DELETE FROM espacios WHERE id_espacio = $1 RETURNING *', [id]);
+    return result.rows[0];
 };
 
-// Exportar todas las funciones definidas en este archivo
 export {
-    listarTodosEspaciosQuery,
-    listarEspacioPorIdQuery,
-    crearEspacioQuery,
-    actualizarEspacioQuery,
-    eliminarEspacioQuery
-}
+    listarEspacios,
+    obtenerEspacioPorId,
+    crearEspacio,
+    actualizarEspacio,
+    eliminarEspacio
+};

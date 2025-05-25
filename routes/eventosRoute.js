@@ -1,20 +1,19 @@
 import { Router } from 'express';
 
 import {
-    listarTodosEventos,
-    listarEventoPorId,
-    crearEvento,
-    actualizarEvento,
-    eliminarEvento
+  listarEventos,
+  obtenerEventoPorId,
+  crearEvento,
+  actualizarEvento,
+  eliminarEvento
 } from '../controllers/eventosController.js';
 
-const eventosRoute = Router();
+const EventosRouter = Router();
 
-eventosRoute.get('/', listarTodosEventos);
-eventosRoute.get('/:id', listarEventoPorId);
+EventosRouter.get('/', listarEventos);
+EventosRouter.get('/:id', obtenerEventoPorId);
+EventosRouter.post('/', crearEvento);
+EventosRouter.put('/:id', actualizarEvento);
+EventosRouter.delete('/:id', eliminarEvento);
 
-eventosRoute.post('/', crearEvento);
-eventosRoute.put('/:id', actualizarEvento);
-eventosRoute.delete('/:id', eliminarEvento);
-
-export default eventosRoute;
+export default EventosRouter;

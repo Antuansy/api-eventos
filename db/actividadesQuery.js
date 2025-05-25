@@ -1,86 +1,41 @@
-import { pool } from '../config.js';
+// db/actividadesQuery.js
+import pool from './db.js';
 
-/**
- * Carga la lista de actividades
- */
-const listarTodasActividadesQuery = async () => {
-    try {
-        const result = await config.query('SELECT * FROM actividades');
-        return result.rows;
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
+const listarActividades = async () => {
+    const result = await pool.query('SELECT * FROM actividades');
+    return result.rows;
 };
 
-/**
- * Buscar una actividad por su ID (llave primaria)
- */
-const listarActividadPorIdQuery = async (id) => {
-    try {
-        const result = await pool.query('SELECT * FROM actividades WHERE id = $1 LIMIT 1', [id]);
-        return result.rows;
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
+const obtenerActividadPorId = async (id) => {
+    const result = await pool.query('SELECT * FROM actividades WHERE id_actividad = $1', [id]);
+    return result.rows[0];
 };
 
-/**
- * Guardar una nueva actividad
- */
-const crearActividadQuery = async (actividad) => {
-    const { nombres } = actividad;
-    try {
-        const result = await pool.query(
-            'INSERT INTO actividades (nombres) VALUES ($1) RETURNING *',
-            [nombres]
-        );
-        return result;
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
+const crearActividad = async ({ id_evento, nombre, descripcion, hora_inicio, hora_fin }) => {
+    const result = await pool.query(
+        'INSERT INTO actividades (id_evento, nombre, descripcion, hora_inicio, hora_fin) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+        [id_evento, nombre, descripcion, hora_inicio, hora_fin]
+    );
+    return result.rows[0];
 };
 
-/**
- * Actualizar una actividad por su ID
- */
-const actualizarActividadQuery = async (id, actividad) => {
-    const { nombres } = actividad;
-    try {
-        const result = await pool.query(
-            'UPDATE actividades SET nombres = $1 WHERE id = $2 RETURNING *',
-            [nombres, id]
-        );
-        return result;
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
+const actualizarActividad = async (id, { id_evento, nombre, descripcion, hora_inicio, hora_fin }) => {
+    const result = await pool.query(
+        'UPDATE actividades SET id_evento = $1, nombre = $2, descripcion = $3, hora_inicio = $4, hora_fin = $5 WHERE id_actividad = $6 RETURNING *',
+        [id_evento, nombre, descripcion, hora_inicio, hora_fin, id]
+    );
+    return result.rows[0];
 };
 
-/**
- * Eliminar una actividad por su ID
- */
-const eliminarActividadQuery = async (id) => {
-    try {
-        const result = await pool.query(
-            'DELETE FROM actividades WHERE id = $1 RETURNING *',
-            [id]
-        );
-        return result;
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
+const eliminarActividad = async (id) => {
+    const result = await pool.query('DELETE FROM actividades WHERE id_actividad = $1 RETURNING *', [id]);
+    return result.rows[0];
 };
 
-// Exportar todas las funciones definidas en este archivo
 export {
-    listarTodasActividadesQuery,
-    listarActividadPorIdQuery,
-    crearActividadQuery,
-    actualizarActividadQuery,
-    eliminarActividadQuery
-}
+    listarActividades,
+    obtenerActividadPorId,
+    crearActividad,
+    actualizarActividad,
+    eliminarActividad
+};

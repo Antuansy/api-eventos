@@ -1,20 +1,19 @@
 import { Router } from 'express';
 
 import {
-    listarTodosEspacios,
-    listarEspacioPorId,
-    crearEspacio,
-    actualizarEspacio,
-    eliminarEspacio
+  listarEspacios,
+  obtenerEspacioPorId,
+  crearEspacio,
+  actualizarEspacio,
+  eliminarEspacio
 } from '../controllers/espaciosController.js';
 
-const espaciosRoute = Router();
+const EspaciosRouter = Router();
 
-espaciosRoute.get('/', listarTodosEspacios);
-espaciosRoute.get('/:id', listarEspacioPorId);
+EspaciosRouter.get('/', listarEspacios);
+EspaciosRouter.get('/:id', obtenerEspacioPorId);
+EspaciosRouter.post('/', crearEspacio);
+EspaciosRouter.put('/:id', actualizarEspacio);
+EspaciosRouter.delete('/:id', eliminarEspacio);
 
-espaciosRoute.post('/', crearEspacio);
-espaciosRoute.put('/:id', actualizarEspacio);
-espaciosRoute.delete('/:id', eliminarEspacio);
-
-export default espaciosRoute;
+export default EspaciosRouter;

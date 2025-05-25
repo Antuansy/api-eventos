@@ -1,20 +1,19 @@
 import { Router } from 'express';
 
 import {
-    listarTodasActividades,
-    listarActividadPorId,
-    crearActividad,
-    actualizarActividad,
-    eliminarActividad
+  listarActividades,
+  obtenerActividadPorId,
+  crearActividad,
+  actualizarActividad,
+  eliminarActividad
 } from '../controllers/actividadesController.js';
 
-const actividadesRoute = Router();
+const ActividadesRouter = Router();
 
-actividadesRoute.get('/', listarTodasActividades);
-actividadesRoute.get('/:id', listarActividadPorId);
+ActividadesRouter.get('/', listarActividades);
+ActividadesRouter.get('/:id', obtenerActividadPorId);
+ActividadesRouter.post('/', crearActividad);
+ActividadesRouter.put('/:id', actualizarActividad);
+ActividadesRouter.delete('/:id', eliminarActividad);
 
-actividadesRoute.post('/', crearActividad);
-actividadesRoute.put('/:id', actualizarActividad);
-actividadesRoute.delete('/:id', eliminarActividad);
-
-export default actividadesRoute;
+export default ActividadesRouter;

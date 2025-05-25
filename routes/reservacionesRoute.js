@@ -1,20 +1,19 @@
 import { Router } from 'express';
 
 import {
-    listarTodasReservaciones,
-    listarReservacionPorId,
-    crearReservacion,
-    actualizarReservacion,
-    eliminarReservacion
+  listarReservaciones,
+  obtenerReservacionPorId,
+  crearReservacion,
+  actualizarReservacion,
+  eliminarReservacion
 } from '../controllers/reservacionesController.js';
 
-const reservacionesRoute = Router();
+const ReservacionesRouter = Router();
 
-reservacionesRoute.get('/', listarTodasReservaciones);
-reservacionesRoute.get('/:id', listarReservacionPorId);
+ReservacionesRouter.get('/', listarReservaciones);
+ReservacionesRouter.get('/:id', obtenerReservacionPorId);
+ReservacionesRouter.post('/', crearReservacion);
+ReservacionesRouter.put('/:id', actualizarReservacion);
+ReservacionesRouter.delete('/:id', eliminarReservacion);
 
-reservacionesRoute.post('/', crearReservacion);
-reservacionesRoute.put('/:id', actualizarReservacion);
-reservacionesRoute.delete('/:id', eliminarReservacion);
-
-export default reservacionesRoute;
+export default ReservacionesRouter;

@@ -1,86 +1,41 @@
-import { pool } from '../config.js';
+// db/reservacionesQuery.js
+import pool from './db.js';
 
-/**
- * Carga la lista de reservaciones
- */
-const listarTodasReservacionesQuery = async () => {
-    try {
-        const result = await pool.query('SELECT * FROM reservaciones');
-        return result.rows;
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
+const listarReservaciones = async () => {
+    const result = await pool.query('SELECT * FROM reservaciones');
+    return result.rows;
 };
 
-/**
- * Buscar una reservacion por su ID (llave primaria)
- */
-const listarReservacionPorIdQuery = async (id) => {
-    try {
-        const result = await pool.query('SELECT * FROM reservaciones WHERE id = $1 LIMIT 1', [id]);
-        return result.rows;
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
+const obtenerReservacionPorId = async (id) => {
+    const result = await pool.query('SELECT * FROM reservaciones WHERE id_reservacion = $1', [id]);
+    return result.rows[0];
 };
 
-/**
- * Guardar una nueva reservacion
- */
-const crearReservacionQuery = async (reservacion) => {
-    const { nombres } = reservacion;
-    try {
-        const result = await pool.query(
-            'INSERT INTO reservaciones (nombres) VALUES ($1) RETURNING *',
-            [nombres]
-        );
-        return result;
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
+const crearReservacion = async ({ id_evento, id_asistente, fecha_reserva }) => {
+    const result = await pool.query(
+        'INSERT INTO reservaciones (id_evento, id_asistente, fecha_reserva) VALUES ($1, $2, $3) RETURNING *',
+        [id_evento, id_asistente, fecha_reserva]
+    );
+    return result.rows[0];
 };
 
-/**
- * Actualizar una reservacion por su ID
- */
-const actualizarReservacionQuery = async (id, reservacion) => {
-    const { nombres } = reservacion;
-    try {
-        const result = await pool.query(
-            'UPDATE reservaciones SET nombres = $1 WHERE id = $2 RETURNING *',
-            [nombres, id]
-        );
-        return result;
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
+const actualizarReservacion = async (id, { id_evento, id_asistente, fecha_reserva }) => {
+    const result = await pool.query(
+        'UPDATE reservaciones SET id_evento = $1, id_asistente = $2, fecha_reserva = $3 WHERE id_reservacion = $4 RETURNING *',
+        [id_evento, id_asistente, fecha_reserva, id]
+    );
+    return result.rows[0];
 };
 
-/**
- * Eliminar una reservacion por su ID
- */
-const eliminarReservacionQuery = async (id) => {
-    try {
-        const result = await pool.query(
-            'DELETE FROM reservaciones WHERE id = $1 RETURNING *',
-            [id]
-        );
-        return result;
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
+const eliminarReservacion = async (id) => {
+    const result = await pool.query('DELETE FROM reservaciones WHERE id_reservacion = $1 RETURNING *', [id]);
+    return result.rows[0];
 };
 
-// Exportar todas las funciones definidas en este archivo
 export {
-    listarTodasReservacionesQuery,
-    listarReservacionPorIdQuery,
-    crearReservacionQuery,
-    actualizarReservacionQuery,
-    eliminarReservacionQuery
-}
+    listarReservaciones,
+    obtenerReservacionPorId,
+    crearReservacion,
+    actualizarReservacion,
+    eliminarReservacion
+};

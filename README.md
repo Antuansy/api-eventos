@@ -61,61 +61,61 @@ API RESTful para administrar eventos, usuarios, espacios, actividades y reservac
 
 ### 👤 Usuarios
 
-| Método | Ruta              | Descripción                     |
-|--------|-------------------|---------------------------------|
-| GET    | `/usuarios`       | Obtener todos los usuarios      |
-| GET    | `/usuarios/:id`   | Obtener un usuario por ID       |
-| POST   | `/usuarios`       | Crear un nuevo usuario          |
-| PUT    | `/usuarios/:id`   | Actualizar un usuario           |
-| DELETE | `/usuarios/:id`   | Eliminar un usuario             |
+| Método | Ruta                 | Descripción                     |
+|--------|----------------------|---------------------------------|
+| GET    | `api/usuarios`       | Obtener todos los usuarios      |
+| GET    | `api/usuarios/:id`   | Obtener un usuario por ID       |
+| POST   | `api/usuarios`       | Crear un nuevo usuario          |
+| PUT    | `api/usuarios/:id`   | Actualizar un usuario           |
+| DELETE | `api/usuarios/:id`   | Eliminar un usuario             |
 
 ---
 
 ### 📅 Eventos
 
-| Método | Ruta              | Descripción                         |
-|--------|-------------------|-------------------------------------|
-| GET    | `/eventos`        | Obtener todos los eventos           |
-| GET    | `/eventos/:id`    | Obtener un evento por ID            |
-| POST   | `/eventos`        | Crear un nuevo evento               |
-| PUT    | `/eventos/:id`    | Actualizar un evento                |
-| DELETE | `/eventos/:id`    | Eliminar un evento                  |
+| Método | Ruta                 | Descripción                         |
+|--------|----------------------|-------------------------------------|
+| GET    | `api/eventos`        | Obtener todos los eventos           |
+| GET    | `api/eventos/:id`    | Obtener un evento por ID            |
+| POST   | `api/eventos`        | Crear un nuevo evento               |
+| PUT    | `api/eventos/:id`    | Actualizar un evento                |
+| DELETE | `api/eventos/:id`    | Eliminar un evento                  |
 
 ---
 
 ### 🏛️ Espacios
 
-| Método | Ruta              | Descripción                         |
-|--------|-------------------|-------------------------------------|
-| GET    | `/espacios`       | Obtener todos los espacios          |
-| GET    | `/espacios/:id`   | Obtener un espacio por ID           |
-| POST   | `/espacios`       | Crear un nuevo espacio              |
-| PUT    | `/espacios/:id`   | Actualizar un espacio               |
-| DELETE | `/espacios/:id`   | Eliminar un espacio                 |
+| Método | Ruta                 | Descripción                         |
+|--------|----------------------|-------------------------------------|
+| GET    | `api/espacios`       | Obtener todos los espacios          |
+| GET    | `api/espacios/:id`   | Obtener un espacio por ID           |
+| POST   | `api/espacios`       | Crear un nuevo espacio              |
+| PUT    | `api/espacios/:id`   | Actualizar un espacio               |
+| DELETE | `api/espacios/:id`   | Eliminar un espacio                 |
 
 ---
 
 ### 🗓️ Actividades
 
-| Método | Ruta                   | Descripción                         |
-|--------|------------------------|-------------------------------------|
-| GET    | `/actividades`         | Obtener todas las actividades       |
-| GET    | `/actividades/:id`     | Obtener una actividad por ID        |
-| POST   | `/actividades`         | Crear una nueva actividad           |
-| PUT    | `/actividades/:id`     | Actualizar una actividad            |
-| DELETE | `/actividades/:id`     | Eliminar una actividad              |
+| Método | Ruta                      | Descripción                         |
+|--------|---------------------------|-------------------------------------|
+| GET    | `api/actividades`         | Obtener todas las actividades       |
+| GET    | `api/actividades/:id`     | Obtener una actividad por ID        |
+| POST   | `api/actividades`         | Crear una nueva actividad           |
+| PUT    | `api/actividades/:id`     | Actualizar una actividad            |
+| DELETE | `api/actividades/:id`     | Eliminar una actividad              |
 
 ---
 
 ### 📥 Reservaciones
 
-| Método | Ruta                      | Descripción                              |
-|--------|---------------------------|------------------------------------------|
-| GET    | `/reservaciones`          | Obtener todas las reservaciones          |
-| GET    | `/reservaciones/:id`      | Obtener una reservación por ID           |
-| POST   | `/reservaciones`          | Crear una nueva reservación              |
-| PUT    | `/reservaciones/:id`      | Actualizar una reservación               |
-| DELETE | `/reservaciones/:id`      | Eliminar una reservación                 |
+| Método | Ruta                         | Descripción                              |
+|--------|------------------------------|------------------------------------------|
+| GET    | `api/reservaciones`          | Obtener todas las reservaciones          |
+| GET    | `api/reservaciones/:id`      | Obtener una reservación por ID           |
+| POST   | `api/reservaciones`          | Crear una nueva reservación              |
+| PUT    | `api/reservaciones/:id`      | Actualizar una reservación               |
+| DELETE | `api/reservaciones/:id`      | Eliminar una reservación                 |
 
 ---
 
@@ -123,25 +123,61 @@ API RESTful para administrar eventos, usuarios, espacios, actividades y reservac
 
 Basado en la carpeta `api-eventos`:
 
-api-eventos/
+API-EVENTOS/
 │
-├── controllers/ # Lógica de controladores para cada recurso
-├── routes/ # Definición de rutas y endpoints
-├── db/ # Conexión y configuración de base de datos
+├── controllers/              # Controladores con la lógica de cada entidad
+│   ├── actividadesController.js
+│   ├── espaciosController.js
+│   ├── eventosController.js
+│   ├── reservacionesController.js
+│   └── usuariosController.js
 │
-├── .env # Variables de entorno (puerto, claves, etc.)
-├── config.js # Configuración general o conexión DB
-├── index.js # Archivo principal de la aplicación
+├── db/                       # Conexión y consultas a la base de datos
+│   ├── actividadesQuery.js
+│   ├── db.js                 # Pool de conexión a PostgreSQL
+│   ├── espaciosQuery.js
+│   ├── eventosQuery.js
+│   ├── reservacionesQuery.js
+│   └── usuariosQuery.js
 │
-├── package.json # Dependencias y scripts
-├── README.md # Documentación del proyecto
-└── reservacion_de_eventos.sql # Script o respaldo de la base de datos
+├── routes/                   # Rutas de la API para cada recurso
+│   ├── actividadesRoute.js
+│   ├── espaciosRoute.js
+│   ├── eventosRoute.js
+│   ├── reservacionesRoute.js
+│   └── usuariosRoute.js
+│
+├── .env                      # Variables de entorno (credenciales, puertos, etc.)
+├── .gitignore                # Archivos ignorados por Git
+├── config.js                 # Configuración general (puerto, base de datos, etc.)
+├── index.js                  # Punto de entrada de la aplicación
+├── package.json              # Dependencias y scripts del proyecto
+├── package-lock.json         # Lockfile de NPM
+├── README.md                 # Documentación del proyecto
+└── reservacion_de_eventos.sql  # Script SQL para creación de las tablas
+
 
 ---
 
 ## 🚀 Instalación
 
  Clona el repositorio:
-```bash
+
 git clone https://github.com/Antuansy/api-eventos.git
 cd api-eventos
+
+Instala las dependencias:
+
+npm install
+
+Configura las variables de entorno en un archivo .env:
+
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=tu_usuario
+DB_PASSWORD=tu_password
+DB_NAME=eventos
+PORT=3000
+
+Ejecuta la aplicación desde el navegador:
+localhost:3000

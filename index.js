@@ -1,38 +1,34 @@
-import express from 'express'
-import cors from 'cors'
-import dotenv from 'dotenv'
+// index.js
+import express from 'express';
+import cors from 'cors';
 
-// Load env variables
-dotenv.config()
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-const app = express()
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Importar las rutas de los eventos
-import eventosRoute from './routes/eventosRoute.js';
-// Importar las rutas de los usuarios
-import usuariosRoute from './routes/usuariosRoute.js';
-// Importar las rutas de los espacios
-import espaciosRoute from './routes/espaciosRoute.js';
-// Importar las rutas de las reservaciones
-import reservacionesRoute from './routes/reservacionesRoute.js';
-// Importar las rutas de las actividades
-import actividadesRoute from './routes/actividadesRoute.js';
+// Importa solo las rutas relevantes a tu proyecto
+import ActividadesRouter from './routes/actividadesRoute.js';
+import EspaciosRouter from './routes/espaciosRoute.js';
+import EventosRouter from './routes/eventosRoute.js';
+import ReservacionesRouter from './routes/reservacionesRoute.js';
+import UsuariosRouter from './routes/usuariosRoute.js'; 
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-app.use(cors())
+// Usa solo las rutas necesarias para tu proyecto
+app.use('/api/actividades', ActividadesRouter);
+app.use('/api/espacios', EspaciosRouter);
+app.use('/api/eventos', EventosRouter);
+app.use('/api/reservaciones', ReservacionesRouter);
+app.use('/api/usuarios', UsuariosRouter)
 
+// Ruta base
+app.get('/', (req, res) => {
+    res.send('Bienvenido a la API del sistema de reservación de Eventos');
+});
 
-//Usar las rutas
-app.use('/eventos', eventosRoute); // EVENTOS
-app.use('/usuarios', usuariosRoute); // USUARIOS
-app.use('/espacios', espaciosRoute); // ESPACIOS
-app.use('/reservaciones', reservacionesRoute); // RESERVACIONES
-app.use('/actividades', actividadesRoute); // ACTIVIDADES
-
-const port =
-    process.env.PORT || 3000
-
-app.listen(port, () => {
-    console.log(`Servidor corriendo en el puerto ${port}`)
-})
+// Iniciar servidor
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en el puerto ${PORT}`);
+});
