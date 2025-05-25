@@ -1,16 +1,16 @@
 // controllers/usuariosController.js
 import {
-  listarUsuarios,
-  obtenerUsuarioPorId,
-  crearUsuario,
-  actualizarUsuario,
-  eliminarUsuario
+  listarUsuariosQuery,
+  obtenerUsuarioPorIdQuery,
+  crearUsuarioQuery,
+  actualizarUsuarioQuery,
+  eliminarUsuarioQuery
 } from "../db/usuariosQuery.js";
 
 /**
  * Obtener todos los usuarios de la base de datos
  */
-const listarUsuariosQuery = async (req, res) => {
+const listarUsuarios = async (req, res) => {
   try {
     const usuarios = await listarUsuariosQuery();
     res.json(usuarios);
@@ -22,7 +22,7 @@ const listarUsuariosQuery = async (req, res) => {
 /**
  * Obtener un usuario por ID
  */
-const obtenerUsuarioPorIdQuery = async (req, res) => {
+const obtenerUsuarioPorId = async (req, res) => {
   try {
     const usuario = await obtenerUsuarioPorIdQuery(req.params.id);
     if (usuario.length === 0) {
@@ -37,7 +37,7 @@ const obtenerUsuarioPorIdQuery = async (req, res) => {
 /**
  * Crear un nuevo usuario
  */
-const crearUsuarioQuery = async (req, res) => {
+const crearUsuario = async (req, res) => {
   try {
     const datosUsuario = req.body;
     const resultado = await crearUsuarioQuery(datosUsuario);
@@ -50,7 +50,7 @@ const crearUsuarioQuery = async (req, res) => {
 /**
  * Actualizar un usuario} existente
  */
-const actualizarUsuarioQuery = async (req, res) => {
+const actualizarUsuario = async (req, res) => {
   try {
     const id = req.params.id;
     const datosUsuario = req.body;
@@ -67,7 +67,7 @@ const actualizarUsuarioQuery = async (req, res) => {
 /**
  * Eliminar un usuario
  */
-const eliminarUsuarioQuery = async (req, res) => {
+const eliminarUsuario = async (req, res) => {
   try {
     const id = req.params.id;
     const resultado = await eliminarUsuarioQuery(id);

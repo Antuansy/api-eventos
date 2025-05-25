@@ -1,16 +1,16 @@
 // controllers/reservacionesController.js
 import {
-  listarReservaciones,
-  obtenerReservacionPorId,
-  crearReservacion,
-  actualizarReservacion,
-  eliminarReservacion
+  listarReservacionesQuery,
+  obtenerReservacionPorIdQuery,
+  crearReservacionQuery,
+  actualizarReservacionQuery,
+  eliminarReservacionQuery
 } from "../db/reservacionesQuery.js";
 
 /**
  * Obtener todas las reservaciones de la base de datos
  */
-const listarReservacionesQuery = async (req, res) => {
+const listarReservaciones = async (req, res) => {
   try {
     const reservaciones = await listarReservacionesQuery();
     res.json(reservaciones);
@@ -22,7 +22,7 @@ const listarReservacionesQuery = async (req, res) => {
 /**
  * Obtener una reservacion por ID
  */
-const obtenerReservacionPorIdQuery = async (req, res) => {
+const obtenerReservacionPorId = async (req, res) => {
   try {
     const espacio = await obtenerReservacionPorIdQuery(req.params.id);
     if (espacio.length === 0) {
@@ -37,7 +37,7 @@ const obtenerReservacionPorIdQuery = async (req, res) => {
 /**
  * Crear una nueva reservacion
  */
-const crearReservacionQuery = async (req, res) => {
+const crearReservacion = async (req, res) => {
   try {
     const datosReservacion = req.body;
     const resultado = await crearReservacionQuery(datosReservacion);
@@ -50,7 +50,7 @@ const crearReservacionQuery = async (req, res) => {
 /**
  * Actualizar una reservacion existente
  */
-const actualizarReservacionQuery = async (req, res) => {
+const actualizarReservacion = async (req, res) => {
   try {
     const id = req.params.id;
     const datosReservacion = req.body;
@@ -67,7 +67,7 @@ const actualizarReservacionQuery = async (req, res) => {
 /**
  * Eliminar una reservacion
  */
-const eliminarReservacionQuery = async (req, res) => {
+const eliminarReservacion = async (req, res) => {
   try {
     const id = req.params.id;
     const resultado = await eliminarReservacionQuery(id);

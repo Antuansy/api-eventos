@@ -1,16 +1,16 @@
 // controllers/eventosController.js
 import {
-  listarEventos,
-  obtenerEventoPorId,
-  crearEvento,
-  actualizarEvento,
-  eliminarEvento
+  listarEventosQuery,
+  obtenerEventoPorIdQuery,
+  crearEventoQuery,
+  actualizarEventoQuery,
+  eliminarEventoQuery
 } from "../db/eventosQuery.js";
 
 /**
  * Obtener todos los eventos de la base de datos
  */
-const listarEventosQuery = async (req, res) => {
+const listarEventos = async (req, res) => {
   try {
     const eventos = await listarEventosQuery();
     res.json(eventos);
@@ -22,7 +22,7 @@ const listarEventosQuery = async (req, res) => {
 /**
  * Obtener un evento por ID
  */
-const obtenerEventoPorIdQuery = async (req, res) => {
+const obtenerEventoPorId = async (req, res) => {
   try {
     const evento = await obtenerEventoPorIdQuery(req.params.id);
     if (evento.length === 0) {
@@ -37,7 +37,7 @@ const obtenerEventoPorIdQuery = async (req, res) => {
 /**
  * Crear un nuevo evento
  */
-const crearEventoQuery = async (req, res) => {
+const crearEvento = async (req, res) => {
   try {
     const datosEvento = req.body;
     const resultado = await crearEventoQuery(datosEvento);
@@ -50,7 +50,7 @@ const crearEventoQuery = async (req, res) => {
 /**
  * Actualizar un evento} existente
  */
-const actualizarEventoQuery = async (req, res) => {
+const actualizarEvento = async (req, res) => {
   try {
     const id = req.params.id;
     const datosEvento = req.body;
@@ -67,7 +67,7 @@ const actualizarEventoQuery = async (req, res) => {
 /**
  * Eliminar un evento
  */
-const eliminarEventoQuery = async (req, res) => {
+const eliminarEvento = async (req, res) => {
   try {
     const id = req.params.id;
     const resultado = await eliminarEventoQuery(id);

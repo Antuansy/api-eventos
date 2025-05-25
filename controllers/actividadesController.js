@@ -1,16 +1,15 @@
 // controllers/actividadesController.js
 import {
-  listarActividades,
-  obtenerActividadPorId,
-  crearActividad,
-  actualizarActividad,
-  eliminarActividad
+  listarActividadesQuery,
+  crearActividadQuery,
+  actualizarActividadQuery,
+  eliminarActividadQuery
 } from "../db/actividadesQuery.js";
 
 /**
  * Obtener todas las actividades de la base de datos
  */
-const listarActividadesQuery = async (req, res) => {
+const listarActividades = async (req, res) => {
   try {
     const actividades = await listarActividadesQuery();
     res.json(actividades);
@@ -22,7 +21,7 @@ const listarActividadesQuery = async (req, res) => {
 /**
  * Obtener una actividad por ID
  */
-const obtenerActividadPorIdQuery = async (req, res) => {
+const obtenerActividadPorId = async (req, res) => {
   try {
     const espacio = await obtenerActividadPorIdQuery(req.params.id);
     if (espacio.length === 0) {
@@ -37,7 +36,7 @@ const obtenerActividadPorIdQuery = async (req, res) => {
 /**
  * Crear una nueva actividad
  */
-const crearActividadQuery = async (req, res) => {
+const crearActividad = async (req, res) => {
   try {
     const datosActividad = req.body;
     const resultado = await crearActividadQuery(datosActividad);
@@ -50,7 +49,7 @@ const crearActividadQuery = async (req, res) => {
 /**
  * Actualizar una actividad existente
  */
-const actualizarActividadQuery = async (req, res) => {
+const actualizarActividad = async (req, res) => {
   try {
     const id = req.params.id;
     const datosActividad = req.body;
@@ -67,7 +66,7 @@ const actualizarActividadQuery = async (req, res) => {
 /**
  * Eliminar una actividad
  */
-const eliminarActividadQuery = async (req, res) => {
+const eliminarActividad = async (req, res) => {
   try {
     const id = req.params.id;
     const resultado = await eliminarActividadQuery(id);

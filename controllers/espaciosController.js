@@ -1,16 +1,16 @@
 // controllers/espaciosController.js
 import {
-  listarEspacios,
-  obtenerEspacioPorId,
-  crearEspacio,
-  actualizarEspacio,
-  eliminarEspacio
+  listarEspaciosQuery,
+  obtenerEspacioPorIdQuery,
+  crearEspacioQuery,
+  actualizarEspacioQuery,
+  eliminarEspacioQuery
 } from "../db/espaciosQuery.js";
 
 /**
  * Obtener todos los espacios de la base de datos
  */
-const listarEspaciosQuery = async (req, res) => {
+const listarEspacios = async (req, res) => {
   try {
     const espacios = await listarEspaciosQuery();
     res.json(espacios);
@@ -22,7 +22,7 @@ const listarEspaciosQuery = async (req, res) => {
 /**
  * Obtener un espacio por ID
  */
-const obtenerEspacioPorIdQuery = async (req, res) => {
+const obtenerEspacioPorId = async (req, res) => {
   try {
     const espacio = await obtenerEspacioPorIdQuery(req.params.id);
     if (espacio.length === 0) {
@@ -37,7 +37,7 @@ const obtenerEspacioPorIdQuery = async (req, res) => {
 /**
  * Crear un nuevo espacio
  */
-const crearEspacioQuery = async (req, res) => {
+const crearEspacio = async (req, res) => {
   try {
     const datosEspacio = req.body;
     const resultado = await crearEspacioQuery(datosEspacio);
@@ -50,7 +50,7 @@ const crearEspacioQuery = async (req, res) => {
 /**
  * Actualizar un espacio existente
  */
-const actualizarEspacioQuery = async (req, res) => {
+const actualizarEspacio = async (req, res) => {
   try {
     const id = req.params.id;
     const datosEspacio = req.body;
@@ -67,7 +67,7 @@ const actualizarEspacioQuery = async (req, res) => {
 /**
  * Eliminar un espacio
  */
-const eliminarEspacioQuery = async (req, res) => {
+const eliminarEspacio = async (req, res) => {
   try {
     const id = req.params.id;
     const resultado = await eliminarEspacioQuery(id);
